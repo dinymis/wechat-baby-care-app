@@ -1,0 +1,111 @@
+<!--index.wxml-->
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="container">
+    <!-- 搜索栏 -->
+    <view class="search-bar" bindtap="onSearchTap">
+      <view class="search-input">
+        <text class="search-icon">🔍</text>
+        <text class="search-placeholder">搜索育儿知识...</text>
+      </view>
+    </view>
+
+    <!-- 轮播图 -->
+    <swiper class="banner-swiper" indicator-dots="{{true}}" autoplay="{{true}}" interval="3000" duration="500">
+      <block wx:for="{{banners}}" wx:key="id" wx:for-item="item">
+        <swiper-item>
+          <view class="banner-item" bindtap="onBannerTap" data-link="{{item.link}}">
+            <image class="banner-image" src="{{item.image}}" mode="aspectFill"></image>
+            <view class="banner-content">
+              <text class="banner-title">{{item.title}}</text>
+            </view>
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+
+    <!-- 分类导航 -->
+    <view class="category-section">
+      <view class="section-header">
+        <text class="section-title">热门分类</text>
+        <text class="more-btn" bindtap="onCategoryTap">更多 ></text>
+      </view>
+      <scroll-view class="category-tabs" 
+                   scroll-x="true" 
+                   show-scrollbar="{{false}}" 
+                   scroll-left="0"
+                   enable-flex="true"
+                   scroll-with-animation="true"
+                   bindscroll="onCategoryScroll">
+        <view class="category-tab-list">
+          <block wx:for="{{categories}}" wx:key="id" wx:for-item="category">
+            <view class="category-tab-item {{selectedCategoryId === category.id ? 'selected' : ''}}" 
+                  bindtap="onCategoryTabTap" 
+                  data-category="{{category}}">
+              <text class="category-icon">{{category.icon}}</text>
+              <text class="category-tab-name">{{category.name}}</text>
+            </view>
+          </block>
+        </view>
+      </scroll-view>
+    </view>
+
+    <!-- 分类文章展示区域 -->
+    <view class="category-articles-section" wx:if="{{selectedCategoryArticles.length > 0}}">
+      <view class="section-header">
+        <text class="section-title">{{selectedCategoryName}}文章</text>
+        <text class="more-btn" bindtap="onViewMoreCategoryArticles">更多 ></text>
+      </view>
+      <view class="articles-list">
+        <block wx:for="{{selectedCategoryArticles}}" wx:key="id" wx:for-item="article">
+          <view class="article-item" bindtap="onArticleTap" data-id="{{article.id}}">
+            <image class="article-cover" src="{{article.coverImage}}" mode="aspectFill"></image>
+            <view class="article-content">
+              <text class="article-title">{{article.title}}</text>
+              <text class="article-summary">{{article.summary}}</text>
+              <view class="article-meta">
+                <text class="article-author">{{article.author}}</text>
+                <text class="article-time">{{article.publishTime}}</text>
+                <text class="article-read-time">{{article.readTime}}分钟</text>
+                <text class="article-read-count">{{article.readCount}}阅读</text>
+                <text class="article-free" wx:if="{{article.isFree}}">免费</text>
+              </view>
+              <view class="article-tags">
+                <block wx:for="{{article.tags}}" wx:key="*this" wx:for-item="tag">
+                  <text class="tag">{{tag}}</text>
+                </block>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <!-- 推荐专栏 -->
+    <view class="columns-section">
+      <view class="section-header">
+        <text class="section-title">推荐专栏</text>
+        <text class="more-btn" bindtap="onViewMoreColumns">更多 ></text>
+      </view>
+      <view class="columns-list">
+        <block wx:for="{{columns}}" wx:key="id" wx:for-item="column">
+          <view class="column-item" bindtap="onColumnTap" data-id="{{column.id}}">
+            <image class="column-cover" src="{{column.coverImage}}" mode="aspectFill"></image>
+            <view class="column-content">
+              <text class="column-title">{{column.title}}</text>
+              <text class="column-description">{{column.description}}</text>
+              <view class="column-meta">
+                <text class="column-author">{{column.author}}</text>
+                <text class="column-stats">{{column.articleCount}}篇文章 · {{column.readCount}}阅读</text>
+              </view>
+              <view class="column-tags">
+                <block wx:for="{{column.tags}}" wx:key="*this" wx:for-item="tag">
+                  <text class="tag">{{tag}}</text>
+                </block>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+</scroll-view>

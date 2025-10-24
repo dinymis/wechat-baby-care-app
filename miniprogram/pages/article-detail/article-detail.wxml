@@ -1,0 +1,70 @@
+<!--article-detail.wxml-->
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="container">
+    <!-- 文章头部信息 -->
+    <view class="article-header">
+      <text class="article-title">{{article.title}}</text>
+      <view class="article-meta">
+        <view class="author-info">
+          <image class="author-avatar" src="{{article.authorAvatar}}" mode="aspectFill"></image>
+          <view class="author-details">
+            <text class="author-name">{{article.author}}</text>
+            <text class="publish-time">{{article.publishTime}}</text>
+          </view>
+          <button class="follow-btn" bindtap="onFollowAuthor">关注</button>
+        </view>
+        <view class="article-stats">
+          <text class="stat-item">{{article.readTime}}分钟阅读</text>
+          <text class="stat-item">{{article.readCount}}阅读</text>
+          <text class="stat-item" wx:if="{{article.isFree}}">免费</text>
+        </view>
+      </view>
+      <view class="article-tags">
+        <block wx:for="{{article.tags}}" wx:key="*this" wx:for-item="tag">
+          <text class="tag">{{tag}}</text>
+        </block>
+      </view>
+    </view>
+
+    <!-- 文章封面 -->
+    <view class="article-cover-section">
+      <image class="article-cover" src="{{article.coverImage}}" mode="aspectFill"></image>
+    </view>
+
+    <!-- 文章内容 -->
+    <view class="article-content">
+      <rich-text nodes="{{article.content}}"></rich-text>
+    </view>
+
+    <!-- 相关推荐 -->
+    <view class="related-section">
+      <text class="section-title">相关推荐</text>
+      <view class="related-articles">
+        <view class="related-item" bindtap="onViewRelatedArticles">
+          <image class="related-cover" src="https://img.yzcdn.cn/vant/cat.jpeg" mode="aspectFill"></image>
+          <text class="related-title">宝宝睡眠训练指南</text>
+        </view>
+        <view class="related-item" bindtap="onViewRelatedArticles">
+          <image class="related-cover" src="https://img.yzcdn.cn/vant/cat.jpeg" mode="aspectFill"></image>
+          <text class="related-title">新生儿护理要点</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部操作栏 -->
+    <view class="bottom-actions">
+      <view class="action-item" bindtap="onLike">
+        <text class="action-icon">{{article.isLiked ? '❤️' : '🤍'}}</text>
+        <text class="action-text">{{article.likeCount}}</text>
+      </view>
+      <view class="action-item" bindtap="onCollect">
+        <text class="action-icon">{{article.isCollected ? '⭐' : '☆'}}</text>
+        <text class="action-text">{{article.collectCount}}</text>
+      </view>
+      <view class="action-item" bindtap="onShare">
+        <text class="action-icon">📤</text>
+        <text class="action-text">分享</text>
+      </view>
+    </view>
+  </view>
+</scroll-view>

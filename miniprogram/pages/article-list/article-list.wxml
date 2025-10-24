@@ -1,0 +1,51 @@
+<!--article-list.wxml-->
+<scroll-view class="scrollarea" scroll-y type="list" bindscrolltolower="onLoadMore" refresher-enabled="{{true}}" bindrefresherrefresh="onRefresh">
+  <view class="container">
+    <!-- 排序选项 -->
+    <view class="sort-section">
+      <view class="sort-options">
+        <block wx:for="{{sortOptions}}" wx:key="value" wx:for-item="option">
+          <view class="sort-item {{sortType === option.value ? 'active' : ''}}" 
+                bindtap="onSortChange" 
+                data-type="{{option.value}}">
+            <text class="sort-text">{{option.label}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <!-- 文章列表 -->
+    <view class="articles-section">
+      <block wx:for="{{articles}}" wx:key="id" wx:for-item="article">
+        <view class="article-item" bindtap="onArticleTap" data-id="{{article.id}}">
+          <image class="article-cover" src="{{article.coverImage}}" mode="aspectFill"></image>
+          <view class="article-content">
+            <text class="article-title">{{article.title}}</text>
+            <text class="article-summary">{{article.summary}}</text>
+            <view class="article-meta">
+              <text class="article-author">{{article.author}}</text>
+              <text class="article-time">{{article.publishTime}}</text>
+              <text class="article-read-time">{{article.readTime}}分钟</text>
+              <text class="article-read-count">{{article.readCount}}阅读</text>
+              <text class="article-free" wx:if="{{article.isFree}}">免费</text>
+            </view>
+            <view class="article-tags">
+              <block wx:for="{{article.tags}}" wx:key="*this" wx:for-item="tag">
+                <text class="tag">{{tag}}</text>
+              </block>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <!-- 加载状态 -->
+    <view class="loading-section" wx:if="{{loading}}">
+      <text class="loading-text">加载中...</text>
+    </view>
+
+    <view class="no-more" wx:if="{{!hasMore && !loading}}">
+      <text class="no-more-text">没有更多了</text>
+    </view>
+  </view>
+</scroll-view>

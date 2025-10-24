@@ -1,0 +1,60 @@
+<!--column-detail.wxml-->
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="container">
+    <!-- 专栏头部信息 -->
+    <view class="column-header">
+      <image class="column-cover" src="{{column.coverImage}}" mode="aspectFill"></image>
+      <view class="column-info">
+        <text class="column-title">{{column.title}}</text>
+        <text class="column-desc">{{column.description}}</text>
+        <view class="column-meta">
+          <view class="author-info">
+            <image class="author-avatar" src="{{column.authorAvatar}}" mode="aspectFill"></image>
+            <text class="author-name">{{column.author}}</text>
+          </view>
+          <view class="stats">
+            <text class="stat-item">{{column.articleCount}}篇文章</text>
+            <text class="stat-item">{{column.readCount}}阅读</text>
+            <text class="stat-item">{{column.subscribeCount}}订阅</text>
+          </view>
+        </view>
+        <view class="column-tags">
+          <block wx:for="{{column.tags}}" wx:key="*this" wx:for-item="tag">
+            <text class="tag">{{tag}}</text>
+          </block>
+        </view>
+        <view class="action-buttons">
+          <button class="subscribe-btn {{column.isSubscribed ? 'subscribed' : ''}}" bindtap="onSubscribe">
+            {{column.isSubscribed ? '已订阅' : '订阅专栏'}}
+          </button>
+          <button class="share-btn" bindtap="onShare">分享</button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 文章列表 -->
+    <view class="articles-section">
+      <view class="section-header">
+        <text class="section-title">最新文章</text>
+        <text class="more-btn" bindtap="onViewAllArticles">查看全部 ></text>
+      </view>
+      <view class="articles-list">
+        <block wx:for="{{articles}}" wx:key="id" wx:for-item="article">
+          <view class="article-item" bindtap="onArticleTap" data-id="{{article.id}}">
+            <image class="article-cover" src="{{article.coverImage}}" mode="aspectFill"></image>
+            <view class="article-content">
+              <text class="article-title">{{article.title}}</text>
+              <text class="article-summary">{{article.summary}}</text>
+              <view class="article-meta">
+                <text class="article-time">{{article.publishTime}}</text>
+                <text class="article-read-time">{{article.readTime}}分钟阅读</text>
+                <text class="article-read-count">{{article.readCount}}阅读</text>
+                <text class="article-free" wx:if="{{article.isFree}}">免费</text>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+</scroll-view>

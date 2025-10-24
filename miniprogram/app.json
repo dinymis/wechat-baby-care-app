@@ -1,0 +1,20 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/test/test",
+    "pages/column/column",
+    "pages/column-detail/column-detail",
+    "pages/article-list/article-list",
+    "pages/article-detail/article-detail",
+    "pages/category/category",
+    "pages/search/search",
+    "pages/logs/logs"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "育儿专栏"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

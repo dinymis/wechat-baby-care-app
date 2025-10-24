@@ -1,0 +1,118 @@
+<!--search.wxml-->
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="container">
+    <!-- 搜索框 -->
+    <view class="search-section">
+      <view class="search-input-wrapper">
+        <text class="search-icon">🔍</text>
+        <input class="search-input" 
+               placeholder="搜索育儿知识..." 
+               value="{{searchKeyword}}"
+               bindinput="onSearchInput"
+               bindconfirm="onSearchConfirm"
+               placeholder-style="color: #999;" />
+        <text class="search-btn" bindtap="onSearchConfirm" wx:if="{{searchKeyword}}">搜索</text>
+      </view>
+    </view>
+
+    <!-- 搜索结果 -->
+    <view class="results-section" wx:if="{{showResults}}">
+      <!-- 标签页 -->
+      <view class="tabs">
+        <block wx:for="{{tabs}}" wx:key="value" wx:for-item="tab">
+          <view class="tab-item {{currentTab === tab.value ? 'active' : ''}}" 
+                bindtap="onTabChange" 
+                data-tab="{{tab.value}}">
+            <text class="tab-text">{{tab.label}}</text>
+          </view>
+        </block>
+      </view>
+
+      <!-- 搜索结果列表 -->
+      <view class="results-list" wx:if="{{!loading}}">
+        <block wx:for="{{searchResults}}" wx:key="id" wx:for-item="result">
+          <view class="result-item" bindtap="onResultTap" data-result="{{result}}">
+            <image class="result-cover" src="{{result.coverImage}}" mode="aspectFill"></image>
+            <view class="result-content">
+              <text class="result-title">{{result.title}}</text>
+              <text class="result-desc">{{result.description}}</text>
+              <view class="result-meta">
+                <text class="result-author" wx:if="{{result.author}}">{{result.author}}</text>
+                <text class="result-time" wx:if="{{result.publishTime}}">{{result.publishTime}}</text>
+                <text class="result-stats" wx:if="{{result.readCount}}">{{result.readCount}}阅读</text>
+                <text class="result-stats" wx:if="{{result.articleCount}}">{{result.articleCount}}篇文章</text>
+              </view>
+              <view class="result-tags" wx:if="{{result.tags}}">
+                <block wx:for="{{result.tags}}" wx:key="*this" wx:for-item="tag">
+                  <text class="tag">{{tag}}</text>
+                </block>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+
+      <!-- 加载状态 -->
+      <view class="loading" wx:if="{{loading}}">
+        <text class="loading-text">搜索中...</text>
+      </view>
+
+      <!-- 无结果 -->
+      <view class="no-results" wx:if="{{!loading && searchResults.length === 0}}">
+        <text class="no-results-icon">🔍</text>
+        <text class="no-results-text">没有找到相关内容</text>
+      </view>
+    </view>
+
+    <!-- 搜索建议 -->
+    <view class="suggestions-section" wx:if="{{!showResults}}">
+      <!-- 热门分类 -->
+      <view class="category-section">
+        <text class="section-title">🔥 热门分类</text>
+        <scroll-view class="category-tabs" scroll-x="true" show-scrollbar="{{false}}">
+          <view class="category-tab-list">
+            <block wx:for="{{categories}}" wx:key="id" wx:for-item="category">
+              <view class="category-tab-item" 
+                    bindtap="onCategoryTap" 
+                    data-category="{{category}}">
+                <text class="category-icon">{{category.icon}}</text>
+                <text class="category-tab-name">{{category.name}}</text>
+              </view>
+            </block>
+          </view>
+        </scroll-view>
+      </view>
+
+      <!-- 搜索历史 -->
+      <view class="history-section" wx:if="{{searchHistory.length > 0}}">
+        <view class="section-header">
+          <text class="section-title">搜索历史</text>
+          <text class="clear-btn" bindtap="onClearHistory">清除</text>
+        </view>
+        <view class="history-list">
+          <block wx:for="{{searchHistory}}" wx:key="*this" wx:for-item="keyword">
+            <view class="history-item">
+              <text class="history-keyword" bindtap="onHistoryTap" data-keyword="{{keyword}}">{{keyword}}</text>
+              <text class="delete-btn" bindtap="onDeleteHistory" data-keyword="{{keyword}}">×</text>
+            </view>
+          </block>
+        </view>
+      </view>
+
+      <!-- 热门搜索 -->
+      <view class="hot-section">
+        <text class="section-title">🔥 热门搜索</text>
+        <view class="hot-keywords">
+          <block wx:for="{{hotKeywords}}" wx:key="id" wx:for-item="keyword">
+            <view class="hot-keyword-item" 
+                  bindtap="onHotKeywordTap" 
+                  data-keyword="{{keyword.keyword}}">
+              <text class="keyword-text">{{keyword.keyword}}</text>
+              <text class="keyword-count">{{keyword.count}}</text>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>

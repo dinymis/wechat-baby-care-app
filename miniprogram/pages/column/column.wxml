@@ -1,0 +1,68 @@
+<!--column.wxml-->
+<scroll-view class="scrollarea" scroll-y type="list" bindscrolltolower="onLoadMore" refresher-enabled="{{true}}" bindrefresherrefresh="onRefresh">
+  <view class="container">
+    <!-- 排序选项 -->
+    <view class="sort-section">
+      <view class="sort-options">
+        <block wx:for="{{sortOptions}}" wx:key="value" wx:for-item="option">
+          <view class="sort-item {{sortType === option.value ? 'active' : ''}}" 
+                bindtap="onSortChange" 
+                data-type="{{option.value}}">
+            <text class="sort-text">{{option.label}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <!-- 专栏列表 -->
+    <view class="columns-section">
+      <block wx:for="{{columns}}" wx:key="id" wx:for-item="column">
+        <view class="column-item" bindtap="onColumnTap" data-id="{{column.id}}">
+          <image class="column-cover" src="{{column.coverImage}}" mode="aspectFill"></image>
+          <view class="column-content">
+            <view class="column-header">
+              <text class="column-title">{{column.title}}</text>
+              <view class="column-badges">
+                <text class="hot-badge" wx:if="{{column.isHot}}">🔥 热门</text>
+              </view>
+            </view>
+            <text class="column-desc">{{column.description}}</text>
+            <view class="column-meta">
+              <view class="author-info">
+                <image class="author-avatar" src="{{column.authorAvatar}}" mode="aspectFill"></image>
+                <text class="author-name">{{column.author}}</text>
+              </view>
+              <view class="column-stats">
+                <text class="stat-item">{{column.articleCount}}篇文章</text>
+                <text class="stat-item">{{column.readCount}}阅读</text>
+              </view>
+            </view>
+            <view class="column-tags">
+              <block wx:for="{{column.tags}}" wx:key="*this" wx:for-item="tag">
+                <text class="tag">{{tag}}</text>
+              </block>
+            </view>
+            <view class="column-actions">
+              <button class="subscribe-btn {{column.isSubscribed ? 'subscribed' : ''}}" 
+                      bindtap="onSubscribe" 
+                      data-id="{{column.id}}"
+                      catchtap="true">
+                {{column.isSubscribed ? '已订阅' : '订阅'}}
+              </button>
+              <text class="subscribe-count">{{column.subscribeCount}}人订阅</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <!-- 加载状态 -->
+    <view class="loading-section" wx:if="{{loading}}">
+      <text class="loading-text">加载中...</text>
+    </view>
+
+    <view class="no-more" wx:if="{{!hasMore && !loading}}">
+      <text class="no-more-text">没有更多了</text>
+    </view>
+  </view>
+</scroll-view>

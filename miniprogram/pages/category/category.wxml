@@ -1,0 +1,62 @@
+<!--category.wxml-->
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="container">
+    <!-- 搜索栏 -->
+    <view class="search-section">
+      <view class="search-input-wrapper">
+        <text class="search-icon">🔍</text>
+        <input class="search-input" 
+               placeholder="搜索分类..." 
+               bindinput="onSearchInput"
+               placeholder-style="color: #999;" />
+      </view>
+    </view>
+
+    <!-- 热门分类 -->
+    <view class="hot-section">
+      <text class="section-title">🔥 热门分类</text>
+      <view class="hot-categories">
+        <block wx:for="{{categories}}" wx:key="id" wx:for-item="category">
+          <block wx:if="{{category.isHot}}">
+            <view class="hot-category-item" 
+                  bindtap="onCategoryTap" 
+                  data-id="{{category.id}}"
+                  style="background-color: {{category.color}}20;">
+              <text class="category-icon">{{category.icon}}</text>
+              <text class="category-name">{{category.name}}</text>
+              <text class="category-count">{{category.articleCount}}篇</text>
+            </view>
+          </block>
+        </block>
+      </view>
+    </view>
+
+    <!-- 全部分类 -->
+    <view class="all-section">
+      <text class="section-title">📚 全部分类</text>
+      <view class="categories-grid">
+        <block wx:for="{{categories}}" wx:key="id" wx:for-item="category">
+          <view class="category-item" 
+                bindtap="onCategoryTap" 
+                data-id="{{category.id}}">
+            <view class="category-header">
+              <text class="category-icon" style="color: {{category.color}};">{{category.icon}}</text>
+              <text class="category-name">{{category.name}}</text>
+            </view>
+            <text class="category-desc">{{category.description}}</text>
+            <view class="category-stats">
+              <text class="stat-item">{{category.articleCount}}篇文章</text>
+              <text class="stat-item">{{category.columnCount}}个专栏</text>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{categories.length === 0 && !loading}}">
+      <text class="empty-icon">🔍</text>
+      <text class="empty-text">没有找到相关分类</text>
+    </view>
+  </view>
+</scroll-view>
