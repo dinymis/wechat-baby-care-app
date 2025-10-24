@@ -2,10 +2,16 @@
 <scroll-view class="scrollarea" scroll-y type="list">
   <view class="container">
     <!-- 搜索栏 -->
-    <view class="search-bar" bindtap="onSearchTap">
-      <view class="search-input">
-        <text class="search-icon">🔍</text>
-        <text class="search-placeholder">搜索育儿知识...</text>
+    <view class="search-container">
+      <view class="app-logo">
+        <text class="logo-icon">💝</text>
+        <text class="logo-text">爱心守护</text>
+      </view>
+      <view class="search-bar" bindtap="onSearchTap">
+        <view class="search-input">
+          <text class="search-icon">🔍</text>
+          <text class="search-placeholder">搜索育儿知识...</text>
+        </view>
       </view>
     </view>
 
@@ -29,24 +35,22 @@
         <text class="section-title">热门分类</text>
         <text class="more-btn" bindtap="onCategoryTap">更多 ></text>
       </view>
-      <scroll-view class="category-tabs" 
-                   scroll-x="true" 
-                   show-scrollbar="{{false}}" 
-                   scroll-left="0"
-                   enable-flex="true"
-                   scroll-with-animation="true"
-                   bindscroll="onCategoryScroll">
-        <view class="category-tab-list">
-          <block wx:for="{{categories}}" wx:key="id" wx:for-item="category">
-            <view class="category-tab-item {{selectedCategoryId === category.id ? 'selected' : ''}}" 
-                  bindtap="onCategoryTabTap" 
-                  data-category="{{category}}">
-              <text class="category-icon">{{category.icon}}</text>
-              <text class="category-tab-name">{{category.name}}</text>
-            </view>
-          </block>
-        </view>
-      </scroll-view>
+      <swiper class="category-tabs" 
+              indicator-dots="{{false}}" 
+              autoplay="{{false}}" 
+              circular="{{false}}"
+              display-multiple-items="5"
+              previous-margin="0rpx"
+              next-margin="0rpx">
+        <swiper-item wx:for="{{categories}}" wx:key="id" wx:for-item="category">
+          <view class="category-tab-item {{selectedCategoryId === category.id ? 'selected' : ''}}" 
+                bindtap="onCategoryTabTap" 
+                data-category="{{category}}">
+            <text class="category-icon">{{category.icon}}</text>
+            <text class="category-tab-name">{{category.name}}</text>
+          </view>
+        </swiper-item>
+      </swiper>
     </view>
 
     <!-- 分类文章展示区域 -->

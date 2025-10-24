@@ -64,23 +64,47 @@
       </view>
     </view>
 
-    <!-- 搜索建议 -->
+    <!-- 搜索建议 - 与分类页面保持一致 -->
     <view class="suggestions-section" wx:if="{{!showResults}}">
       <!-- 热门分类 -->
-      <view class="category-section">
+      <view class="hot-section">
         <text class="section-title">🔥 热门分类</text>
-        <scroll-view class="category-tabs" scroll-x="true" show-scrollbar="{{false}}">
-          <view class="category-tab-list">
-            <block wx:for="{{categories}}" wx:key="id" wx:for-item="category">
-              <view class="category-tab-item" 
+        <view class="hot-categories">
+          <block wx:for="{{categories}}" wx:key="id" wx:for-item="category">
+            <block wx:if="{{category.isHot}}">
+              <view class="hot-category-item" 
                     bindtap="onCategoryTap" 
-                    data-category="{{category}}">
+                    data-category="{{category}}"
+                    style="background-color: {{category.color}}20;">
                 <text class="category-icon">{{category.icon}}</text>
-                <text class="category-tab-name">{{category.name}}</text>
+                <text class="category-name">{{category.name}}</text>
+                <text class="category-count">{{category.articleCount}}篇</text>
               </view>
             </block>
-          </view>
-        </scroll-view>
+          </block>
+        </view>
+      </view>
+
+      <!-- 全部分类 -->
+      <view class="all-section">
+        <text class="section-title">📚 全部分类</text>
+        <view class="categories-grid">
+          <block wx:for="{{categories}}" wx:key="id" wx:for-item="category">
+            <view class="category-item" 
+                  bindtap="onCategoryTap" 
+                  data-category="{{category}}">
+              <view class="category-header">
+                <text class="category-icon" style="color: {{category.color}};">{{category.icon}}</text>
+                <text class="category-name">{{category.name}}</text>
+              </view>
+              <text class="category-desc">{{category.description}}</text>
+              <view class="category-stats">
+                <text class="stat-item">{{category.articleCount}}篇文章</text>
+                <text class="stat-item">{{category.columnCount}}个专栏</text>
+              </view>
+            </view>
+          </block>
+        </view>
       </view>
 
       <!-- 搜索历史 -->
@@ -100,7 +124,7 @@
       </view>
 
       <!-- 热门搜索 -->
-      <view class="hot-section">
+      <view class="hot-search-section">
         <text class="section-title">🔥 热门搜索</text>
         <view class="hot-keywords">
           <block wx:for="{{hotKeywords}}" wx:key="id" wx:for-item="keyword">
